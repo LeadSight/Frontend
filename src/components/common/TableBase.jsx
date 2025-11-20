@@ -34,7 +34,10 @@ const TableBase = ({ columns = [], data = [], rowKey = 'id', onRowClick, expande
                 className={`border-b border-gray-100 hover:bg-purple-50 transition-colors ${onRowClick ? 'cursor-pointer' : ''}`}
               >
                 {columns.map(col => (
-                  <td key={col.key} className="px-4 py-4 text-sm align-middle">
+                  <td 
+                    key={col.key} 
+                    className="px-4 py-4 text-sm align-middle max-w-[150px] truncate" 
+                    title={row[col.key]}>
                     {col.render ? col.render(row) : (row[col.key] ?? '-')}
                   </td>
                 ))}
