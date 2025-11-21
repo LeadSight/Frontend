@@ -1,5 +1,6 @@
 import React from 'react';
 import { Edit, Trash2 } from 'lucide-react';
+import Button from '../ui/Button';
 
 const NoteList = ({ notes, onEdit, onDelete }) => {
   if (notes.length === 0) {
@@ -20,20 +21,21 @@ const NoteList = ({ notes, onEdit, onDelete }) => {
           <div className="flex items-start justify-between mb-2">
             <h4 className="font-semibold text-gray-800">{note.title}</h4>
             <div className="flex space-x-2">
-              <button
+              <Button
                 onClick={() => onEdit(note)}
-                className="text-blue-600 hover:text-blue-800 transition-colors"
+                variant="ghost"
+                size="xs"
+                icon={<Edit className="w-4 h-4" />}
                 title="Edit Note"
-              >
-                <Edit className="w-4 h-4" />
-              </button>
-              <button
+              />
+              <Button
                 onClick={() => onDelete(note.id)}
-                className="text-red-600 hover:text-red-800 transition-colors"
+                variant="ghost"
+                size="xs"
+                icon={<Trash2 className="w-4 h-4" />}
+                className="text-red-600 hover:text-red-800"
                 title="Delete Note"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+              />
             </div>
           </div>
           <p className="text-sm text-gray-600 mb-2">{note.content}</p>

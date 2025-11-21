@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Button from '../ui/Button';
 
 const Pagination = ({
   currentPage,
@@ -74,41 +75,38 @@ const Pagination = ({
         {totalPages > 1 && (
           <div className="flex items-center space-x-2">
 
-            <button
+            <Button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              variant="outline"
+              size="sm"
+              icon={<ChevronLeft className="w-4 h-4" />}
               title="Previous Page"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
+            />
 
             {getPageNumbers().map((page, index) => (
               page === '...' ? (
                 <span key={`ellipsis-${index}`} className="px-3 py-1 text-gray-500">...</span>
               ) : (
-                <button
+                <Button
                   key={page}
                   onClick={() => onPageChange(page)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                    currentPage === page
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-100'
-                  }`}
+                  variant={currentPage === page ? 'default' : 'outline'}
+                  size="sm"
                 >
                   {page}
-                </button>
+                </Button>
               )
             ))}
 
-            <button
+            <Button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              variant="outline"
+              size="sm"
+              icon={<ChevronRight className="w-4 h-4" />}
               title="Next Page"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+            />
           </div>
         )}
       </div>

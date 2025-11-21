@@ -1,5 +1,6 @@
 import React from 'react';
 import { X } from 'lucide-react';
+import Button from '../ui/Button';
 
 const NoteModal = ({ 
   show, 
@@ -20,22 +21,19 @@ const NoteModal = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl p-6 transform transition-all duration-300 scale-100 animate-fadeIn">
         
-        {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-bold text-gray-800">
             {editingNote ? 'Edit Note' : 'Add Note'}
           </h3>
-          <button 
+          <Button 
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
+            variant="ghost"
+            size="sm"
+            icon={<X className="w-6 h-6" />}
+          />
         </div>
         
-        {/* Form */}
         <div className="space-y-4">
-          {/* Title Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Note Title
@@ -56,7 +54,6 @@ const NoteModal = ({
             </div>
           </div>
           
-          {/* Content Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Note Content
@@ -71,21 +68,20 @@ const NoteModal = ({
           </div>
         </div>
 
-        {/* Footer Buttons */}
         <div className="flex justify-end space-x-3 mt-6">
-          <button
+          <Button
             onClick={onClose}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+            variant="outline"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onSave}
             disabled={!noteTitle.trim() || !noteContent.trim()}
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="default"
           >
             Save
-          </button>
+          </Button>
         </div>
       </div>
     </div>

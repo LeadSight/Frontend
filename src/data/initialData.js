@@ -15,8 +15,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'university.degree',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'may',
     day_of_week: 'mon',
@@ -30,7 +30,7 @@ export const initialCustomers = [
     cons_conf_idx: -36.4,
     euribor3m: 4.857,
     nr_employed: 5191.0,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 2,
@@ -49,7 +49,7 @@ export const initialCustomers = [
     education: 'high.school',
     default: 'no',
     housing: 'no',
-    loan: 'yes',
+    loan: 'Yes',
     contact: 'telephone',
     month: 'jun',
     day_of_week: 'wed',
@@ -63,7 +63,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 3,
@@ -81,7 +81,7 @@ export const initialCustomers = [
     marital: 'married',
     education: 'basic.9y',
     default: 'no',
-    housing: 'yes',
+    housing: 'Yes',
     loan: 'no',
     contact: 'cellular',
     month: 'jul',
@@ -114,8 +114,8 @@ export const initialCustomers = [
     marital: 'single',
     education: 'university.degree',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'may',
     day_of_week: 'tue',
@@ -129,7 +129,7 @@ export const initialCustomers = [
     cons_conf_idx: -36.4,
     euribor3m: 4.857,
     nr_employed: 5191.0,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 5,
@@ -147,8 +147,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'basic.6y',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'aug',
     day_of_week: 'thu',
@@ -162,7 +162,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 6,
@@ -213,8 +213,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'professional.course',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'apr',
     day_of_week: 'wed',
@@ -228,7 +228,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 8,
@@ -279,8 +279,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'basic.4y',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'telephone',
     month: 'dec',
     day_of_week: 'tue',
@@ -312,8 +312,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'high.school',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'may',
     day_of_week: 'mon',
@@ -327,7 +327,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 11,
@@ -378,8 +378,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'professional.course',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'jun',
     day_of_week: 'thu',
@@ -393,7 +393,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 13,
@@ -411,8 +411,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'university.degree',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'may',
     day_of_week: 'fri',
@@ -426,7 +426,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 14,
@@ -444,7 +444,7 @@ export const initialCustomers = [
     marital: 'divorced',
     education: 'basic.9y',
     default: 'no',
-    housing: 'yes',
+    housing: 'Yes',
     loan: 'no',
     contact: 'telephone',
     month: 'aug',
@@ -477,8 +477,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'basic.4y',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'nov',
     day_of_week: 'tue',
@@ -510,8 +510,8 @@ export const initialCustomers = [
     marital: 'single',
     education: 'university.degree',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'apr',
     day_of_week: 'wed',
@@ -525,7 +525,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 17,
@@ -576,8 +576,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'high.school',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'jul',
     day_of_week: 'fri',
@@ -591,7 +591,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 19,
@@ -609,8 +609,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'professional.course',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'may',
     day_of_week: 'mon',
@@ -624,7 +624,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 20,
@@ -675,8 +675,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'basic.4y',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'dec',
     day_of_week: 'wed',
@@ -708,8 +708,8 @@ export const initialCustomers = [
     marital: 'single',
     education: 'university.degree',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'apr',
     day_of_week: 'thu',
@@ -723,7 +723,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 23,
@@ -774,8 +774,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'professional.course',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'jun',
     day_of_week: 'mon',
@@ -789,7 +789,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 25,
@@ -807,8 +807,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'university.degree',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'apr',
     day_of_week: 'tue',
@@ -822,7 +822,7 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
   {
     id: 26,
@@ -873,8 +873,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'basic.6y',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'oct',
     day_of_week: 'thu',
@@ -906,8 +906,8 @@ export const initialCustomers = [
     marital: 'married',
     education: 'professional.course',
     default: 'no',
-    housing: 'yes',
-    loan: 'yes',
+    housing: 'Yes',
+    loan: 'Yes',
     contact: 'cellular',
     month: 'may',
     day_of_week: 'fri',
@@ -921,6 +921,6 @@ export const initialCustomers = [
     cons_conf_idx: -41.8,
     euribor3m: 4.962,
     nr_employed: 5228.1,
-    y: 'yes'
+    y: 'Yes'
   },
 ];

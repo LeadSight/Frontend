@@ -92,7 +92,7 @@ const CustomerDetailPanel = ({ show, onClose, customer }) => {
 
 const DetailRow = ({ label, value, status }) => {
   const getStatusColor = (val) => {
-    if (val === 'yes' || val === 'Yes') return 'bg-green-100 text-green-700';
+    if (val === 'Yes' || val === 'Yes') return 'bg-green-100 text-green-700';
     if (val === 'no' || val === 'No') return 'bg-red-100 text-red-700';
     return '';
   };

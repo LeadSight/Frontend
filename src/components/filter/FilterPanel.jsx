@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const defaultFilters = { 
   rank: null, 
@@ -14,6 +14,7 @@ const defaultFilters = {
 
 const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
   const [tempFilters, setTempFilters] = useState(filters);
+  // const [sortOrder, setSortOrder] = useState([]); // Track order of user selections
   const [openBalance, setOpenBalance] = useState(true);
   const [openDeposit, setOpenDeposit] = useState(true);
   const [openLoan, setOpenLoan] = useState(true);
@@ -22,11 +23,79 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
   const [openCategory, setOpenCategory] = useState(true);
   const [openAge, setOpenAge] = useState(true);
 
-  useEffect(() => {
-    requestAnimationFrame(() => setTempFilters(filters || defaultFilters));
-  }, [filters, show]);
+  // useEffect(() => {
+  //   requestAnimationFrame(() => {
+  //     setTempFilters(filters || defaultFilters);
+  //     setSortOrder(filters.sortOrder || []);
+  //   });
+  // }, [filters, show]);
 
-  const headerClass = (active) => `w-full ${active ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-800'} font-semibold py-2 px-4 rounded-lg text-left mb-2`;
+  // // Track when user selects a sort option
+  // const handleSortSelection = (sortType, value) => {
+  //   setTempFilters(prev => ({
+  //     ...prev,
+  //     [sortType]: value
+  //   }));
+
+  //   // Add to sortOrder if not already there and value is not null
+  //   if (value != null && !sortOrder.includes(sortType)) {
+  //     setSortOrder(prev => [...prev, sortType]);
+  //   }
+  //   // Remove from sortOrder if value is null (deselected)
+  //   else if (value == null) {
+  //     setSortOrder(prev => prev.filter(item => item !== sortType));
+  //   }
+  // };
+
+  // Count active filters
+  const countActiveFilters = (filters) => {
+    let count = 0;
+    if (filters.balanceSort != null) count++;
+    if (filters.hasDeposit != null) count++;
+    if (filters.hasLoan != null) count++;
+    if (filters.rank != null) count++;
+    if (filters.probabilityRanges?.length > 0) count++;
+    if (filters.categories?.length > 0) count++;
+    if (filters.ageRanges?.length > 0) count++;
+    return count;
+  };
+
+  // Handle apply with sorting priority
+  const handleApplyFilters = () => {
+    const activeFilterCount = countActiveFilters(tempFilters);
+    
+    // Determine primary sort
+    let primarySort = null;
+    if (tempFilters.balanceSort) primarySort = 'balance';
+    else if (tempFilters.hasDeposit) primarySort = 'deposit';
+    else if (tempFilters.hasLoan) primarySort = 'loan';
+    else if (tempFilters.probabilityRanges?.length > 0) primarySort = 'probability';
+    else if (tempFilters.categories?.length > 0) primarySort = 'category';
+    else if (tempFilters.ageRanges?.length > 0) primarySort = 'age';
+    
+    // Add sorting priority information
+    const filtersWithPriority = {
+      ...tempFilters,
+      sortPriority: {
+        // Primary is any other filter
+        primary: primarySort,
+        // Rank is ALWAYS secondary if selected with other filters
+        secondary: (primarySort && tempFilters.rank) ? 'rank' : null,
+        // If ONLY rank is selected, it becomes primary
+        rankOnly: !primarySort && tempFilters.rank
+      },
+      activeFilterCount,
+      // Flag to exclude zero balance when balance sort is active
+      excludeZeroBalance: Boolean(tempFilters.balanceSort)
+    };
+    
+    console.log('Filters being applied:', filtersWithPriority);
+    
+    if (onApply) onApply(filtersWithPriority);
+    onClose();
+  };
+
+  const headerClass = (active) => `w-full ${active ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-800'} font-semibold py-2 px-4 rounded-lg text-left mb-2 transition-colors`;
 
   return (
     <AnimatePresence>
@@ -67,7 +136,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                 {openBalance && (
                   <div className="space-y-2 ml-4">
                     {['All', 'Highest', 'Lowest'].map((val) => (
-                      <label key={val} className="flex items-center space-x-2">
+                      <label key={val} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="radio"
                           name="balance"
@@ -82,7 +151,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                               balanceSort: val === 'All' ? null : val.toLowerCase()
                             }))
                           }
-                          className="text-purple-600"
+                          className="text-purple-600 cursor-pointer"
                         />
                         <span className="text-gray-600">{val}</span>
                       </label>
@@ -99,7 +168,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                 {openDeposit && (
                   <div className="space-y-2 ml-4">
                     {['All', 'Yes', 'No'].map((val) => (
-                      <label key={val} className="flex items-center space-x-2">
+                      <label key={val} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="radio"
                           name="deposit"
@@ -112,7 +181,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                               hasDeposit: val === 'All' ? null : val
                             }))
                           }
-                          className="text-purple-600"
+                          className="text-purple-600 cursor-pointer"
                         />
                         <span className="text-gray-600">{val}</span>
                       </label>
@@ -129,7 +198,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                 {openLoan && (
                   <div className="space-y-2 ml-4">
                     {['All', 'Yes', 'No'].map((val) => (
-                      <label key={val} className="flex items-center space-x-2">
+                      <label key={val} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="radio"
                           name="loan"
@@ -142,7 +211,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                               hasLoan: val === 'All' ? null : val
                             }))
                           }
-                          className="text-purple-600"
+                          className="text-purple-600 cursor-pointer"
                         />
                         <span className="text-gray-600">{val}</span>
                       </label>
@@ -159,13 +228,13 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                 {openRank && (
                   <div className="space-y-2 ml-4">
                     {['highest', 'lowest'].map((val) => (
-                      <label key={val} className="flex items-center space-x-2">
+                      <label key={val} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="radio"
                           name="rank"
                           checked={tempFilters.rank === val}
                           onChange={() => setTempFilters(prev => ({ ...prev, rank: val }))}
-                          className="text-purple-600"
+                          className="text-purple-600 cursor-pointer"
                         />
                         <span className="text-gray-600">{val === 'highest' ? 'Highest Rank' : 'Lowest Rank'}</span>
                       </label>
@@ -182,7 +251,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                 {openProbability && (
                   <div className="space-y-2 ml-4">
                     {['<10%', '10%-30%', '30%-50%', '50%-70%', '70%-90%', '>90%'].map((range) => (
-                      <label key={range} className="flex items-center space-x-2">
+                      <label key={range} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={tempFilters.probabilityRanges?.includes(range)}
@@ -192,7 +261,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                               return { ...prev, probabilityRanges: list.includes(range) ? list.filter(i => i !== range) : [...list, range] };
                             })
                           }
-                          className="text-purple-600"
+                          className="text-purple-600 cursor-pointer"
                         />
                         <span className="text-gray-600">{range}</span>
                       </label>
@@ -209,7 +278,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                 {openCategory && (
                   <div className="space-y-2 ml-4">
                     {['Priority', 'Non Priority'].map((val) => (
-                      <label key={val} className="flex items-center space-x-2">
+                      <label key={val} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={tempFilters.categories?.includes(val)}
@@ -219,7 +288,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                               return { ...prev, categories: list.includes(val) ? list.filter(i => i !== val) : [...list, val] };
                             })
                           }
-                          className="text-purple-600"
+                          className="text-purple-600 cursor-pointer"
                         />
                         <span className="text-gray-600">{val === 'Non Priority' ? 'Not Priority' : val}</span>
                       </label>
@@ -236,7 +305,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                 {openAge && (
                   <div className="space-y-2 ml-4">
                     {['<30 yo', '30-50 yo', '50-70 yo', '>70 yo'].map((range) => (
-                      <label key={range} className="flex items-center space-x-2">
+                      <label key={range} className="flex items-center space-x-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={tempFilters.ageRanges?.includes(range)}
@@ -246,7 +315,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                               return { ...prev, ageRanges: list.includes(range) ? list.filter(i => i !== range) : [...list, range] };
                             })
                           }
-                          className="text-purple-600"
+                          className="text-purple-600 cursor-pointer"
                         />
                         <span className="text-gray-600">{range}</span>
                       </label>
@@ -254,6 +323,30 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                   </div>
                 )}
               </div>
+
+              {/* Info Message - Show sorting priority */}
+              {(tempFilters.balanceSort || tempFilters.rank || tempFilters.hasDeposit || tempFilters.hasLoan) && (
+                <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                  <p className="text-xs text-purple-800">
+                    <strong>Sort Priority:</strong>
+                    {tempFilters.balanceSort && (
+                      <> Sort by Balance ({tempFilters.balanceSort}) first (excluding 0 balance)</>
+                    )}
+                    {!tempFilters.balanceSort && tempFilters.hasDeposit && (
+                      <> Filter by Deposit ({tempFilters.hasDeposit}) first</>
+                    )}
+                    {!tempFilters.balanceSort && !tempFilters.hasDeposit && tempFilters.hasLoan && (
+                      <> Filter by Loan ({tempFilters.hasLoan}) first</>
+                    )}
+                    {(tempFilters.balanceSort || tempFilters.hasDeposit || tempFilters.hasLoan) && tempFilters.rank && (
+                      <>, then sort by Rank ({tempFilters.rank})</>
+                    )}
+                    {!tempFilters.balanceSort && !tempFilters.hasDeposit && !tempFilters.hasLoan && tempFilters.rank && (
+                      <> Sort by Rank ({tempFilters.rank}) only</>
+                    )}
+                  </p>
+                </div>
+              )}
 
               {/* Buttons */}
               <div className="flex space-x-2">
@@ -268,10 +361,7 @@ const FilterPanel = ({ show, onClose, filters = defaultFilters, onApply }) => {
                   Reset
                 </button>
                 <button
-                  onClick={() => {
-                    if (onApply) onApply(tempFilters);
-                    onClose();
-                  }}
+                  onClick={handleApplyFilters}
                   className="flex-1 bg-purple-600 text-white font-semibold py-3 rounded-lg hover:bg-purple-700 transition-colors"
                 >
                   Apply
