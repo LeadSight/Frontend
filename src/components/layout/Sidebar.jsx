@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import StatCard from '../common/StatCard';
-import { statsData } from '../../data/statsData';
+import { useDashboard } from '../../hooks/useDashboard';
 
 const Sidebar = () => {
+  const { statsData } = useDashboard();
+  
   const [animate, setAnimate] = useState({});
 
   useEffect(() => {
@@ -15,7 +17,7 @@ const Sidebar = () => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [statsData]);
 
   return (
     <div className="w-44 bg-linear-to-b from-purple-100 to-purple-100 p-4 space-y-4 rounded-3xl sticky top-4 self-start shrink-0">

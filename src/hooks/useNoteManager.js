@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { logActivity } from '../components/utils/activityLogger';
+import { useAuth } from './useAuth';
+import { addNote, editNote, deleteNote } from '../api/api';
 
 export const useNoteManager = (customers, setCustomers) => {
+  const { user, token } = useAuth();
   const [showNoteModal, setShowNoteModal] = useState(false);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
@@ -20,11 +23,12 @@ export const useNoteManager = (customers, setCustomers) => {
     setSelectedCustomer(customer);
     setEditingNote(note);
     setNoteTitle(note.title);
-    setNoteContent(note.content);
+    setNoteContent(note.body);
     setShowNoteModal(true);
   };
 
-  const handleDeleteNote = (customerId, noteId) => {
+  const handleDeleteNote = async (customerId, noteId) => {
+    await deleteNote(token, noteId);
     setCustomers(customers.map(customer => {
       if (customer.id === customerId) {
         return {
@@ -37,19 +41,22 @@ export const useNoteManager = (customers, setCustomers) => {
     logActivity('note_deleted', { customerId, noteId });
   };
 
-  const handleSaveNote = () => {
+  const handleSaveNote = async () => {
     if (!noteTitle.trim() || !noteContent.trim() || !selectedCustomer) return;
 
     const newNote = {
-      id: editingNote ? editingNote.id : +new Date(),
       title: noteTitle,
-      content: noteContent,
-      createdAt: new Date().toLocaleString('id-ID', {
-        year: 'numeric', month: 'short', day: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      }),
-      createdBy: 'Sales Name'
+      body: noteContent,
+      createdAt: new Date().toISOString(),
+      customerId: selectedCustomer.id,
+      sales: user,
     };
+
+    if (editingNote) {
+      await editNote(token, editingNote.id, newNote);
+    } else {
+      await addNote(token, newNote);
+    }
 
     setCustomers(customers.map(customer => {
       if (customer.id === selectedCustomer.id) {

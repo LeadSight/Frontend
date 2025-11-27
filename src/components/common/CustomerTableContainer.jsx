@@ -12,7 +12,8 @@ import { useNoteManager } from '../../hooks/useNoteManager';
 import { logActivity } from '../utils/activityLogger';
 
 const CustomerTableContainer = () => {
-  const [customers, setCustomers] = useCustomers();
+  const { customers, setCustomers } = useCustomers();
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     rank: null,

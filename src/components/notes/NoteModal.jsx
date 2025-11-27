@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import Button from '../ui/Button';
 
 const NoteModal = ({ 
-  show, 
+  show,
   onClose, 
   onSave, 
   noteTitle, 
