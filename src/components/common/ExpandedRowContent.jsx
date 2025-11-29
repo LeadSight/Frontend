@@ -1,10 +1,14 @@
-import React from 'react';
-import { Plus } from 'lucide-react';
-import Button from '../ui/Button';
-import NoteList from '../notes/NoteList';
-import DemographyCard from '../demography/DemographyCard';
+import { Plus } from "lucide-react";
+import DemographyCard from "../demography/DemographyCard";
+import NoteList from "../notes/NoteList";
+import Button from "../ui/Button";
 
-const ExpandedRowContent = ({ customer, onAddNote, onEditNote, onDeleteNote }) => {
+const ExpandedRowContent = ({
+  customer,
+  onAddNote,
+  onEditNote,
+  onDeleteNote,
+}) => {
   return (
     <div className="bg-white rounded-lg p-4 shadow-inner">
       <div className="flex items-start justify-between mb-3 gap-6">
@@ -36,3 +40,5 @@ const ExpandedRowContent = ({ customer, onAddNote, onEditNote, onDeleteNote }) =
 };
 
 export default ExpandedRowContent;
+
+// test push
