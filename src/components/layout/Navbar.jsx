@@ -3,13 +3,18 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { motion as Motion } from 'framer-motion';
 import logo from '../../assets/picture/LeadSightLogo.png';
+import { logout } from "../../api/api";
+import { useAuth } from "../../hooks/useAuth";
 
 const Navbar = () => {
+  const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = () => {
-    localStorage.removeItem('auth_token');
+    logout();
+    logoutUser();
+
     navigate('/login');
   };
 
@@ -68,10 +73,10 @@ const Navbar = () => {
 
             <div className="text-left">
               <div className="font-semibold text-sm group-hover:text-purple-700 transition-colors">
-                Sales Name
+                {user}
               </div>
               <div className="text-xs text-gray-500 group-hover:text-purple-500 transition-colors">
-                Sales@gmail.com
+                {user}
               </div>
             </div>
           </div>

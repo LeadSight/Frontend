@@ -1,26 +1,27 @@
-// src/App.jsx
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// import Dashboard from './pages/Dashboard';
-import Promotion from './pages/Promotion';
-// import Login from './pages/Login';
+import { Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import LoginPage from "./pages/LoginPage";
+import Promotion from "./pages/Promotion";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <Routes>
-        {/* Uncomment when Login page is ready */}
-        {/* <Route path="/login" element={<Login />} /> */}
-        
-        {/* Uncomment when Dashboard page is ready */}
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        
-        {/* Active routes */}
-        <Route path="/promotion" element={<Promotion />} />
-        <Route path="/" element={<Navigate to="/promotion" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/promotion" element={<Promotion />} />
+
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Navigate to="/promotion" replace />} />
+        </Route>
         <Route path="*" element={<Navigate to="/promotion" replace />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

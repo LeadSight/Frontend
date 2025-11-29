@@ -15,7 +15,7 @@ const NoteList = ({ notes, onEdit, onDelete }) => {
     <div className="space-y-3">
       {notes.map(note => (
         <div 
-          key={note.id}
+          key={`${note.customerId}-${note.id}`}
           className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow"
         >
           <div className="flex items-start justify-between mb-2">
@@ -38,9 +38,9 @@ const NoteList = ({ notes, onEdit, onDelete }) => {
               />
             </div>
           </div>
-          <p className="text-sm text-gray-600 mb-2">{note.content}</p>
+          <p className="text-sm text-gray-600 mb-2">{note.body}</p>
           <div className="text-xs text-gray-400">
-            {note.createdAt} | Created by: {note.createdBy}
+            {note.createdAt} | Created by: {note.sales}
           </div>
         </div>
       ))}
