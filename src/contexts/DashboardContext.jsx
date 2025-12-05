@@ -1,0 +1,43 @@
+import { createContext, useCallback, useEffect, useState } from "react";
+import { getDashboard } from "../api/api";
+import { useAuth } from "../hooks/useAuth";
+
+// Use This Context to Get the dashboard data. statsData is every data needed for the sidebar. distData is other distribution data such as Job Distribution, etc.
+
+const DashboardContext = createContext();
+
+export function DashboardProvider({ children }) {
+  const { token } = useAuth();
+
+  const [statsData, setStatsData] = useState([]);
+  // set initial distData to null so consumers can detect 'not loaded yet'
+  const [distData, setDistData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchDashboard = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      if (!token) return;
+      const data = await getDashboard(token);
+
+      setStatsData(data.statsData);
+      setDistData(data.distData);
+    } catch (err) {
+      console.error("Failed to load dashboard", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    fetchDashboard();
+  }, [fetchDashboard]);
+
+  return (
+    <DashboardContext.Provider value={{ statsData, distData, isLoading }}>
+      {children}
+    </DashboardContext.Provider>
+  );
+}
+
+export default DashboardContext;
