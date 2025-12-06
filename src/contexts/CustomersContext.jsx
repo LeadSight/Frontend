@@ -18,16 +18,15 @@ export function CustomersProvider({ children }) {
   const [totalItems, setTotalItems] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  const processMissingProbabilities = useCallback(
+  const processCustomersProbabilities = useCallback(
     async (customerList) => {
       if (!customerList || customerList.length === 0) return;
-
+      const updatedList = [...customerList];      
+      
       // 1. Find customers missing probability
       const missing = customerList.filter(
         (c) => c.probability === null || c.probability === undefined
       );
-
-      if (missing.length === 0) return;
 
       for (const customer of missing) {
         try {
@@ -62,10 +61,35 @@ export function CustomersProvider({ children }) {
           // 4. Update database through backend API (placeholder)
           await updateCustomerProbability(token, { id: customer.id, probability: predicted.predicted });
 
+          // 5. Update customer entry in local list (so UI updates instantly)
+          const index = updatedList.findIndex((c) => c.id === customer.id);
+          if (index !== -1) {
+            updatedList[index] = {
+              ...updatedList[index],
+              probability: predicted.predicted
+            };
+          }
         } catch (err) {
           console.error("Failed processing probability for customer", customer.id, err);
         }
       }
+
+      updatedList.forEach((customer) => {
+        customer.probability = Math.round(customer.probability * 100);
+      });
+
+      const sorted = [...updatedList].sort(
+        (a, b) => b.probability - a.probability
+      );
+
+      sorted.forEach((customer, index) => {
+        const realIndex = updatedList.findIndex((c) => c.id === customer.id);
+        if (realIndex !== -1) {
+          updatedList[realIndex].originalRank = index + 1; // rank starts at 1
+        }
+      });
+
+      return updatedList;
     },
     [token]
   );
@@ -87,19 +111,19 @@ export function CustomersProvider({ children }) {
       );
 
       const customerList = response.customers || [];
+      
+      const predCustomers = await processCustomersProbabilities(customerList);
 
-      setCustomers(customerList);
+      setCustomers(predCustomers);
       setTotalPages(response.totalPages || 1);
       setTotalItems(response.totalItems || 0);
-
-      await processMissingProbabilities(customerList);
 
     } catch (err) {
       console.error("Failed to load customers", err);
     } finally {
       setIsLoading(false);
     }
-  }, [token, page, pageSize, search, filters, processMissingProbabilities]);
+  }, [token, page, pageSize, search, filters, processCustomersProbabilities]);
 
   useEffect(() => {
     fetchCustomers();

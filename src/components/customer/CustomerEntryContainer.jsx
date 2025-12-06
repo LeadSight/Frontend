@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addCustomer as addCustomerApi } from '../../api/api';
+import { addCustomer as addCustomerApi, calculateProbability } from '../../api/api';
 import { useCustomers } from '../../hooks/useCustomers';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -161,6 +161,34 @@ const CustomerEntryContainer = () => {
       payload.cons_conf_idx = Number(payload.cons_conf_idx) || null;
       payload.euribor3m = Number(payload.euribor3m) || null;
       payload.nr_employed = Number(payload.nr_employed) || null;
+      
+      const mlInput = {
+        age: payload.age,
+        job: payload.job,
+        marital: payload.marital,
+        education: payload.education,
+        default: payload.defaultValue,
+        housing: payload.housing,
+        loan: payload.hasLoan,
+        contact: payload.contact,
+        month: payload.month,
+        day_of_week: payload.day,
+        duration: payload.duration,
+        campaign: payload.campaign,
+        pdays: payload.pdays,
+        previous: payload.previous,
+        poutcome: payload.poutcome,
+        "emp.var.rate": payload.emp_var_rate,
+        "cons.price.idx": payload.cons_price_idx,
+        "cons.conf.idx": payload.cons_conf_idx,
+        euribor3m: payload.euribor3m,
+        "nr.employed": payload.nr_employed,
+        balance: payload.balance
+      };
+
+      const predicted = await calculateProbability(mlInput);
+
+      payload.probability = predicted.predicted;
 
       // call backend if token available
       if (token) {
