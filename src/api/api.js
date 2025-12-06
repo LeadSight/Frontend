@@ -285,6 +285,23 @@ async function updateCustomerProbability(token, { id, probability }) {
   return { error: false };
 }
 
+async function getCustomerInsight(token, customer) {  
+  const response = await fetchWithToken(`${BASE_URL}/private/prompt`, token, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(customer),
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.status !== 'success') {
+    console.error('API error:', responseJson);
+    return { error: true };
+  }
+
+  return { error: false, data: responseJson.data };
+}
+
 export {
   login,
   getUserLogged,
@@ -300,5 +317,6 @@ export {
   editNote,
   deleteNote,
   calculateProbability,
-  updateCustomerProbability
+  updateCustomerProbability,
+  getCustomerInsight
 };

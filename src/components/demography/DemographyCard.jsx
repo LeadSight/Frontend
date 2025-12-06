@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { getStatusColor } from '../../api/api';
+import { getStatusColor, getCustomerInsight } from '../../api/api';
 
 const statusColor = async (token, value, type, key) => {
   // status dot color
@@ -50,6 +50,8 @@ const formatValue = (value, key) => {
 const DemographyCard = ({ customer }) => {
   const { token } = useAuth();
   const [demographicsWithColor, setDemographicsWithColor] = useState([]);
+  const [insight, setInsight] = useState(null);
+  const [loadingInsight, setLoadingInsight] = useState(true);
 
   const demographics = useMemo(() => [
     { label: 'Age', value: customer.age, type: 'age' },
@@ -78,6 +80,31 @@ const DemographyCard = ({ customer }) => {
 
     loadColors();
   }, [token, demographics]);
+
+  useEffect(() => {
+    const fetchInsight = async () => {
+      setLoadingInsight(true);
+
+      const customerData = {
+        age: customer.age,
+        job: customer.job,
+        balance: customer.balance,
+        poutcome: customer.poutcome,
+        campaign: customer.campaign,
+        duration: customer.duration,
+        cons_price_idx: customer.cons_price_idx,
+        cons_conf_idx: customer.cons_conf_idx
+      };
+
+      const result = await getCustomerInsight(token, customerData);
+      setInsight(result?.data.text || "");
+      
+      setLoadingInsight(false);
+    };
+
+    fetchInsight();
+  }, [token, customer]);;
+
 
   if (!customer) return null;
 
@@ -143,16 +170,15 @@ const DemographyCard = ({ customer }) => {
 
         <div className="mt-4 w-full bg-amber-50 border border-amber-100 rounded-md p-3">
           <h5 className="font-semibold text-gray-800 text-sm">AI Insight</h5>
-          {/* For now AI insight is a dedicated field on customer object when available.
-              Do not read from notes -- fall back to the placeholder string if missing. */}
-          {(() => {
-            const insight = (customer.aiInsight ?? customer.insight ?? null);
-            return (
               <p className="text-sm text-gray-700 mt-2 text-left whitespace-pre-wrap wrap-break-word">
-                {insight && String(insight).trim().length > 0 ? String(insight).trim() : 'No insights available.'}
+                {loadingInsight ? (
+                  "Loading insights..."
+                ) : insight?.trim()?.length > 0 ? (
+                  insight.trim()
+                ) : (
+                  "No insights available."
+                )}
               </p>
-            );
-          })()}
       </div>
 
       <div className="mt-4 text-xs text-gray-600">
